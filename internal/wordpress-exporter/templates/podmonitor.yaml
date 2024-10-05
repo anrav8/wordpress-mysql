@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: {{ include "wordpress-exporter.fullname" . }}
+  labels:
+    {{- include "wordpress-exporter.labels" . | nindent 4 }}
+    release: prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "wordpress-exporter.fullname" . }}
+  podMetricsEndpoints:
+  - targetPort: {{ .Values.service.port }}   
+
